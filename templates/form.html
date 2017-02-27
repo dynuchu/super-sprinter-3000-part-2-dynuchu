@@ -1,0 +1,49 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Super Sprinter 3000 -{% if add %} Add new {% else %} Edit {% endif %}
+{% endblock%}
+
+{% block content %}
+
+
+{% if add %}
+<h1>User Story Manager - Add Story</h1>
+<form method="post" action= "{{ url_for('save_adding_page') }}">
+{% else %}
+<h1>User Story Manager - Edit Story</h1>
+<form method="post" action= "{{ url_for('save_editor_page', story_id=story.id) }}">
+{% endif %}
+
+
+<label>Story title</label>
+<p><input id="story_title" name="story_title" size=60 value="{{ story.story_title }}"></p>
+
+<label>User Story</label>
+<p><input style="height: 60px;" id="user_story" name="user_story" size=60 value="{{story.user_story}}"></p>
+
+<label>Acceptance Criteria</label>
+<p><input style="height: 80px;"  id="acceptance_criteria" name="acceptance_criteria" value="{{story.acceptance_criteria}}"size=60></p>
+
+<label>Business Value</label>
+<p><input type="number" id="business_value" name="business_value" value="{{story.business_value}}" min="100" max="1500" step="100"></p>
+
+<label>Estimation (h)</label>
+<p><input type="number" id="estimation" name="estimation" value="{{story.estimation}}" min="0.5" max="40" step="0.5"></p>
+
+<label>Status</label>
+<p></p><select id="status" name="status">
+    <option selected={{ story.status }}>{{ story.status }}</option>
+  <option value="Planning">Planning</option>
+  <option value="To Do">To Do</option>
+  <option value="In progress">In progress</option>
+  <option value="Review">Review</option>
+  <option value="Done">Done</option>
+</select>
+</p>
+<p>
+<input type="submit" name="update" value="Update">
+</p>
+</form>
+
+{% endblock %}
