@@ -6,44 +6,73 @@ Super Sprinter 3000 -{% if add %} Add new {% else %} Edit {% endif %}
 
 {% block content %}
 
-
+<div class="container">
 {% if add %}
-<h1>User Story Manager - Add Story</h1>
-<form method="post" action= "{{ url_for('save_adding_page') }}">
+<h1 class="display-4">User Story Manager - Add Story</h1>
+<form class="form-group" method="post" action= "{{ url_for('save_adding_page') }}">
 {% else %}
-<h1>User Story Manager - Edit Story</h1>
-<form method="post" action= "{{ url_for('save_editor_page', story_id=story.id) }}">
+<h1 class="display-4">User Story Manager - Edit Story</h1>
+<form class="form-group" method="post" action= "{{ url_for('save_editor_page', story_id=story.id) }}">
 {% endif %}
 
 
-<label>Story title</label>
-<p><input id="story_title" name="story_title" size=60 value="{{ story.story_title }}"></p>
+<div class="input-group mt-5">
+   <span class="input-group-addon" id="basic-addon1">Story Title</span>
+  <input type="text" class="form-control" placeholder="e.g System / Handle new application"
+         id="story_title" name="story_title" value="{{ story.story_title }}">
+</div>
+<br>
 
-<label>User Story</label>
-<p><input style="height: 60px;" id="user_story" name="user_story" size=60 value="{{story.user_story}}"></p>
+<div class="input-group">
+   <span class="input-group-addon" id="basic-addon1">User Story</span>
+  <input type="text" class="form-control" placeholder="e.g 'As an Administrator, I want to automate the process of scheduling interviews So that I can save some time (of manual work).'"
+         id="user_story" name="user_story" value="{{story.user_story}}">
+</div>
+<br>
 
-<label>Acceptance Criteria</label>
-<p><input style="height: 80px;"  id="acceptance_criteria" name="acceptance_criteria" value="{{story.acceptance_criteria}}"size=60></p>
+<div class="input-group">
+   <span class="input-group-addon" id="basic-addon1">Acceptance Criteria</span>
+  <input type="text" class="form-control" placeholder="e.g 'Given that there is a new applicant in the 'applicants' db table And it has no application code and school yet When the system detects this new entry Then ensure the program assigns a generated application code for the applicant And ensure the program finds the closest school based on the city (using the City model) And ensure these new values are saved to the Applicant.'"
+         id="acceptance_criteria" name="acceptance_criteria" value="{{story.acceptance_criteria}}">
+</div>
+<br>
 
-<label>Business Value</label>
-<p><input type="number" id="business_value" name="business_value" value="{{story.business_value}}" min="100" max="1500" step="100"></p>
+<div class="input-group">
+   <span class="input-group-addon" id="basic-addon1">Business Value</span>
+  <input type="number" class="form-control"
+         id="business_value" name="business_value" value="{{story.business_value}}" min="100" max="1500" step="100">
+</div>
+<br>
 
-<label>Estimation (h)</label>
-<p><input type="number" id="estimation" name="estimation" value="{{story.estimation}}" min="0.5" max="40" step="0.5"></p>
+<div class="input-group">
+   <span class="input-group-addon" id="basic-addon1">Estimation (h)</span>
+  <input type="number" class="form-control"
+         <input type="number" id="estimation" name="estimation" value="{{story.estimation}}" min="0.5" max="40" step="0.5">
+</div>
+<br>
 
-<label>Status</label>
-<p></p><select id="status" name="status">
-    <option selected={{ story.status }}>{{ story.status }}</option>
-  <option value="Planning">Planning</option>
-  <option value="To Do">To Do</option>
-  <option value="In progress">In progress</option>
-  <option value="Review">Review</option>
-  <option value="Done">Done</option>
+
+<div class="input-group">
+<span class="input-group-addon" id="basic-addon1">Status</span>
+<br>
+<select class="form-control" id="status" name="status">
+<option selected={{ story.status }}>{{ story.status }}</option>
+{% for status in status_list %}
+    {% if story.status != status %}
+    <option value="{{ status }}">{{ status }}</option>
+    {% endif %}
+{% endfor %}
+
 </select>
-</p>
-<p>
-<input type="submit" name="update" value="Update">
+</div>
+<br>
+
+{% if add %}
+    <button class="btn btn-secondary"  type="submit" name="add">Add</button>
+{% else %}
+    <button class="btn btn-secondary" type="submit" name="update">Update</button>
+{% endif %}
 </p>
 </form>
-
+</div>
 {% endblock %}

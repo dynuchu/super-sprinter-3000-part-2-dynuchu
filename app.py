@@ -19,10 +19,11 @@ def show_adding_page():
                                  user_story="",
                                  acceptance_criteria="",
                                  business_value=100,
-                                 estimation=0.5, status="New")
+                                 estimation=0.5, status="Planning")
 
     add = "add"
-    return render_template('form.html', add=add, story=new_story)
+    status_list = ["Planning", "To Do", "In Progress", "Review", "Done"]
+    return render_template('form.html', add=add, story=new_story, status_list=status_list)
 
 
 @app.route("/story", methods=['POST'])
@@ -40,7 +41,8 @@ def save_adding_page():
 @app.route('/story/<int:story_id>', methods=['GET'])
 def show_editor_page(story_id):
     story = UserStoryManager.select().where(UserStoryManager.id == story_id).get()
-    return render_template("form.html", story=story)
+    status_list=["Planning", "To Do", "In Progress", "Review", "Done"]
+    return render_template("form.html", story=story, status_list=status_list)
 
 
 @app.route('/story/<int:story_id>', methods=['POST'])
@@ -68,6 +70,8 @@ def delete(story_id):
     story = UserStoryManager.select().where(UserStoryManager.id == story_id).get()
     UserStoryManager.delete_instance(story)
     return redirect("list")
+
+
 
 
 def main():
